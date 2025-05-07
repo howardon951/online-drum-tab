@@ -1,7 +1,7 @@
 "use client";
 
-import { DRUM_SOUNDS, STEPS } from "../constants/drumSounds";
-import { DrumSequence } from "../types";
+import { DRUM_SOUNDS, STEPS } from "@/app/constants/drumSounds";
+import { DrumSequence } from "@/app/types";
 
 interface DrumGridProps {
   sequence: DrumSequence;

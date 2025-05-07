@@ -1,4 +1,4 @@
-import { DrumSound } from "../types";
+import { DrumSound } from "@/app/types";
 
 // Number of steps in the sequence
 export const STEPS = 16;
@@ -8,32 +8,32 @@ export const DEFAULT_BPM = 120;
 export const DRUM_SOUNDS: DrumSound[] = [
   {
     id: "kick",
-    name: "底鼓",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/kick.mp3",
+    name: "kick",
+    sound: "/sounds/kick.wav",
   },
   {
     id: "snare",
-    name: "軍鼓",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/snare.mp3",
+    name: "snare",
+    sound: "/sounds/snare.wav",
   },
   {
     id: "hihat",
-    name: "合鈸",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/hihat-closed.mp3",
+    name: "hihat",
+    sound: "/sounds/hiHat.wav",
   },
   {
     id: "tomLow",
-    name: "低音鼓",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/tom-low.mp3",
+    name: "tomLow",
+    sound: "/sounds/snare.wav",
   },
   {
     id: "tomMid",
-    name: "中音鼓",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/tom-mid.mp3",
+    name: "tomMid",
+    sound: "/sounds/snare.wav",
   },
   {
     id: "crash",
-    name: "鈸",
-    sound: "https://tonejs.github.io/audio/drum-samples/808/crash-808.mp3",
+    name: "crash",
+    sound: "/sounds/snare.wav",
   },
 ];

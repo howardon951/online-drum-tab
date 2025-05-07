@@ -1,13 +1,14 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { DRUM_SOUNDS, STEPS, DEFAULT_BPM } from "../constants/drumSounds";
-import { ToneJSPlayers, ToneJSSequence, DrumSequence } from "../types";
+import { DRUM_SOUNDS, STEPS, DEFAULT_BPM } from "@/app/constants/drumSounds";
+import { DrumSequence } from "@/app/types";
 import {
   startAudioContext,
   createSamplesPlayers,
   setBpm as setToneBpm,
-} from "../lib/toneUtils";
+} from "@/app/lib/toneUtils";
+import * as Tone from "tone";
 
 export function useDrumSequencer() {
   // State
@@ -18,8 +19,8 @@ export function useDrumSequencer() {
   const [isClient, setIsClient] = useState(false);
 
   // Refs
-  const samplerRef = useRef<ToneJSPlayers | null>(null);
-  const sequenceRef = useRef<ToneJSSequence | null>(null);
+  const samplerRef = useRef<Tone.Players | null>(null);
+  const sequenceRef = useRef<Tone.Sequence | null>(null);
 
   // Initialize sequence - only on client-side
   useEffect(() => {
@@ -37,10 +38,6 @@ export function useDrumSequencer() {
     if (!isClient) return;
 
     const loadTone = async () => {
-      // Ensure Tone is loaded
-      const Tone = window.Tone;
-      if (!Tone) return;
-
       // Create sampler
       const samples: Record<string, string> = {};
       DRUM_SOUNDS.forEach((sound) => {
@@ -86,9 +83,6 @@ export function useDrumSequencer() {
   // Handle play state changes
   useEffect(() => {
     if (!isClient) return;
-
-    const Tone = window.Tone;
-    if (!Tone) return;
 
     if (isPlaying) {
       // Start Transport and sequence
