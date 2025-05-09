@@ -5,7 +5,7 @@ on:
     branches: [main]
 
 env:
-  WEBSITE_DIR: ./website
+  WEBSITE_DIR: ./odtab-website
 
 jobs:
   build-and-deploy:
