@@ -3,6 +3,13 @@ name: Deploy Static Website to GitHub Pages
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+  workflow_call:
+    inputs:
+      GH_ENVIRONMENT:
+        required: true
+        type: string
+    
 
 env:
   WEBSITE_DIR: ./odtab-website
