@@ -8,7 +8,8 @@ import {
   createSamplesPlayers,
   setBpm as setToneBpm,
 } from "@/app/lib/toneUtils";
-import * as Tone from "tone";
+import { Sequence, Players } from "tone";
+import { useTransport } from "@/app/context/ToneTransportContext";
 
 export function useDrumSequencer() {
   // State
@@ -19,8 +20,9 @@ export function useDrumSequencer() {
   const [isClient, setIsClient] = useState(false);
 
   // Refs
-  const samplerRef = useRef<Tone.Players | null>(null);
-  const sequenceRef = useRef<Tone.Sequence | null>(null);
+  const samplerRef = useRef<Players | null>(null);
+  const sequenceRef = useRef<Sequence | null>(null);
+  const transport = useTransport();
 
   // Initialize sequence - only on client-side
   useEffect(() => {
@@ -51,7 +53,7 @@ export function useDrumSequencer() {
       setToneBpm(bpm);
 
       // Create sequence
-      sequenceRef.current = new Tone.Sequence(
+      sequenceRef.current = new Sequence(
         (time: number, step: number) => {
           setCurrentStep(step);
 
@@ -86,13 +88,13 @@ export function useDrumSequencer() {
 
     if (isPlaying) {
       // Start Transport and sequence
-      Tone.Transport.start();
+      transport.start();
       if (sequenceRef.current) {
         sequenceRef.current.start(0);
       }
     } else {
       // Stop Transport and sequence
-      Tone.Transport.stop();
+      transport.stop();
       setCurrentStep(-1);
       if (sequenceRef.current) {
         sequenceRef.current.stop();
@@ -100,11 +102,11 @@ export function useDrumSequencer() {
     }
 
     return () => {
-      if (Tone) {
-        Tone.Transport.stop();
+      if (transport) {
+        transport.stop();
       }
     };
-  }, [isPlaying, isClient]);
+  }, [isPlaying, isClient, transport]);
 
   // Handle BPM changes
   useEffect(() => {

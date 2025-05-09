@@ -5,6 +5,7 @@ import { DrumGrid } from "@/app/components/DrumGrid";
 import { ControlPanel } from "@/app/components/ControlPanel";
 import { Footer } from "@/app/components/Footer";
 import { LoadingIndicator } from "@/app/components/LoadingIndicator";
+
 export function DrumMachine() {
   const {
     sequence,
