@@ -4,7 +4,7 @@ const isProd = process.env.NODE_ENV === "production";
 const repo = "online-drum-tab";
 
 const nextConfig: NextConfig = {
-  output: isProd ? "export" : "standalone",
+  output: isProd ? "export" : undefined,
   basePath: isProd ? `/${repo}` : "",
   assetPrefix: isProd ? `/${repo}/` : "/",
   reactStrictMode: true,
