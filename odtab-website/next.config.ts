@@ -5,9 +5,9 @@ console.log("-------------isProd", isProd);
 const repo = "online-drum-tab";
 
 const nextConfig: NextConfig = {
-  output: isProd ? "export" : undefined,
-  basePath: isProd ? `./${repo}` : "",
-  assetPrefix: isProd ? `./${repo}/` : "./",
+  output: "export",
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `./${repo}/` : "/",
   reactStrictMode: true,
   images: {
     unoptimized: true,
