@@ -33,6 +33,7 @@ jobs:
           touch .env
           echo AssetPrefix="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> .env
           cat .env
+        working-directory: ${{ env.WEBSITE_DIR }}
 
       - name: Build
         run: yarn build
