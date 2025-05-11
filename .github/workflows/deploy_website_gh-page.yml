@@ -7,10 +7,10 @@ on:
       GH_ENVIRONMENT:
         required: true
         type: string
-    
 
 env:
   WEBSITE_DIR: ./odtab-website
+  NODE_ENV: production
 
 jobs:
   build-and-deploy:

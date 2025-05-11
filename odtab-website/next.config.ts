@@ -1,14 +1,12 @@
 import type { NextConfig } from "next";
 
-// for github pages
+const isProd = process.env.NODE_ENV === "production";
 const repo = "online-drum-tab";
-const assetPrefix = `/${repo}/`;
-const basePath = `/${repo}`;
 
 const nextConfig: NextConfig = {
-  output: "export",
-  basePath: basePath,
-  assetPrefix: assetPrefix,
+  output: isProd ? "export" : "standalone",
+  basePath: isProd ? `/${repo}` : "",
+  assetPrefix: isProd ? `/${repo}/` : "/",
   reactStrictMode: true,
   images: {
     unoptimized: true,
