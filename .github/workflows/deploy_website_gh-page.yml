@@ -9,7 +9,7 @@ on:
         type: string
 
 env:
-  WEBSITE_DIR: ./odtab-website
+  # WEBSITE_DIR: ./odtab-website
   # NODE_ENV: production
 
 jobs:
@@ -26,18 +26,16 @@ jobs:
 
       - name: Install Dependencies
         run: yarn install
-        working-directory: ${{ env.WEBSITE_DIR }}
 
       - name: "Create env file"
         run: |
           touch .env
           echo AssetPrefix="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> .env
           cat .env
-        working-directory: ${{ env.WEBSITE_DIR }}
 
       - name: Build
         run: yarn build
-        working-directory: ${{ env.WEBSITE_DIR }}
+
       - name: Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
