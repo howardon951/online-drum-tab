@@ -5,6 +5,9 @@ on:
     branches: ["main"]
   workflow_dispatch:
 
+env:
+  deploy_url: https://drumtab.online/
+
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
@@ -23,7 +26,7 @@ jobs:
       - name: "Create env file"
         run: |
           touch .env
-          echo AssetPrefix="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}/" >> .env
+          echo AssetPrefix="${{ env.deploy_url }}" >> .env
           cat .env
           
       - name: Build
