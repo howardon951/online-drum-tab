@@ -133,8 +133,13 @@ export function useDrumSequencer() {
     if (!isClient) return;
 
     // Start audio context if needed (must be triggered by user interaction)
-    await startAudioContext();
-    setIsPlaying(!isPlaying);
+    const audioStarted = await startAudioContext();
+    if (audioStarted) {
+      setIsPlaying(!isPlaying);
+    } else {
+      console.error("Audio context failed to start");
+      alert("Unable to start audio. Please check your browser settings and try again.");
+    }
   };
 
   // Clear sequence
