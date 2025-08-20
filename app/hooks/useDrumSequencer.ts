@@ -22,6 +22,8 @@ export function useDrumSequencer() {
   // Refs
   const samplerRef = useRef<Players | null>(null);
   const sequenceRef = useRef<Sequence | null>(null);
+  // Keep track of the latest sequence state for the Tone.Sequence callback
+  const sequenceStateRef = useRef<DrumSequence>({});
   const transport = useTransport();
 
   // Initialize sequence - only on client-side
@@ -35,7 +37,12 @@ export function useDrumSequencer() {
     setSequence(initialSequence);
   }, []);
 
-  // Initialize Tone.js - only on client-side
+  // Always keep the ref synced with the latest sequence state
+  useEffect(() => {
+    sequenceStateRef.current = sequence;
+  }, [sequence]);
+
+  // Initialize Tone.js - only once on the client
   useEffect(() => {
     if (!isClient) return;
 
@@ -46,20 +53,16 @@ export function useDrumSequencer() {
         samples[sound.id] = sound.sound;
       });
 
-      // Create sampler
       samplerRef.current = createSamplesPlayers(samples);
 
-      // Set BPM
-      setToneBpm(bpm);
-
-      // Create sequence
+      // Create sequence that references the latest sequence state via ref
       sequenceRef.current = new Sequence(
         (time: number, step: number) => {
           setCurrentStep(step);
 
           // Play all enabled drum sounds at the current step
           DRUM_SOUNDS.forEach((sound) => {
-            if (sequence[sound.id] && sequence[sound.id][step]) {
+            if (sequenceStateRef.current[sound.id]?.[step]) {
               samplerRef.current?.player(sound.id).start(time);
             }
           });
@@ -71,7 +74,6 @@ export function useDrumSequencer() {
 
     loadTone();
 
-    // Cleanup function
     return () => {
       if (sequenceRef.current) {
         sequenceRef.current.dispose();
@@ -80,7 +82,7 @@ export function useDrumSequencer() {
         samplerRef.current.dispose();
       }
     };
-  }, [sequence, bpm, isClient]);
+  }, [isClient]);
 
   // Handle play state changes
   useEffect(() => {
@@ -117,7 +119,11 @@ export function useDrumSequencer() {
 
   // Cell click handler
   const handleCellClick = (soundId: string, step: number) => {
-    const newSequence = { ...sequence };
+    // Create a deep copy of the sequence for the updated drum sound
+    const newSequence = {
+      ...sequence,
+      [soundId]: [...sequence[soundId]],
+    };
     newSequence[soundId][step] = !newSequence[soundId][step];
     setSequence(newSequence);
   };
